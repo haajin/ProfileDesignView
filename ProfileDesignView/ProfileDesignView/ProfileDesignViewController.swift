@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ProfileViewController: UIViewController  {
+class ProfileDesignViewController: UIViewController  {
     //UserFollowInfo view3개 만들기
     let UserName = UILabel()
     let MenuButton = UIButton()
@@ -29,16 +29,59 @@ class ProfileViewController: UIViewController  {
     let Message = UIButton()
     let More = UIButton()
     let NavGallery = UIView()
+    let Grid = UIButton()
+    let Divider = UIView()
+    let Rectangle = UIView()
+    let profileFill = UIButton()
+
+    let galleryCollectionView: UICollectionView = {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 10
+        
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+       
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        cv.register(GalleryCollectionViewCell.self, forCellWithReuseIdentifier: GalleryCollectionViewCell.identifier)
+        
+        return cv
+    }()
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        galleryCollectionView.delegate = self
+//        galleryCollectionView.dataSource = self
+        
+        view.addSubview(UserName)
+        view.addSubview(MenuButton)
+        view.addSubview(UserPic)
+        view.addSubview(UserFollowInfo)
+        UserFollowInfo.addSubview(PostNum)
+        UserFollowInfo.addSubview(Post)
+        UserFollowInfo.addSubview(FollowerNum)
+        UserFollowInfo.addSubview(Follower)
+        UserFollowInfo.addSubview(FollowingNum)
+        UserFollowInfo.addSubview(Following)
+        view.addSubview(UserInfo)
+        UserInfo.addSubview(Name)
+        UserInfo.addSubview(Bio)
+        UserInfo.addSubview(LinkInBio)
+        view.addSubview(MiddleBar)
+        view.addSubview(NavGallery)
+        view.addSubview(Rectangle)
+        view.addSubview(Divider)
+        view.addSubview(Grid)
+        view.addSubview(galleryCollectionView)
+        Rectangle.addSubview(profileFill)
         setUp()
+        
 
     }
 }
-extension ProfileViewController{
+extension ProfileDesignViewController{
     
     // MARK: - SetUp
     
@@ -62,11 +105,14 @@ extension ProfileViewController{
         SetUpFollow()
         SetUpMessage()
         SetUpMore()
-//        SetUpNavGallery()
+        SetUpNavGallery()
+        SetUpGrid()
+        SetUpDivider()
+        SetUpRectangle()
+        SetUpgalleryCollectionView()
 
     }
     func setUpUserName(){
-        view.addSubview(UserName)
         UserName.translatesAutoresizingMaskIntoConstraints = false
         UserName.text = "nabaecamp"
         UserName.textColor = .black
@@ -79,7 +125,6 @@ extension ProfileViewController{
         
     }
     func setUpMenuButton(){
-        view.addSubview(MenuButton)
         MenuButton.translatesAutoresizingMaskIntoConstraints = false
         MenuButton.setImage(UIImage(named: "Menu"), for: .normal)
         
@@ -91,9 +136,8 @@ extension ProfileViewController{
         
     }
     func setUpUserPic(){
-        view.addSubview(UserPic)
         UserPic.translatesAutoresizingMaskIntoConstraints = false
-        UserPic.image = UIImage(named: "Image")
+        UserPic.image = UIImage(named: "Ellipse 1")
         UserPic.widthAnchor.constraint(equalToConstant: 88).isActive = true
         UserPic.heightAnchor.constraint(equalToConstant: 88).isActive = true
         UserPic.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 14).isActive = true
@@ -102,7 +146,6 @@ extension ProfileViewController{
         
     }
     func SetUpUserFollowInfo(){
-        view.addSubview(UserFollowInfo)
         UserFollowInfo.translatesAutoresizingMaskIntoConstraints = false
         UserFollowInfo.widthAnchor.constraint(equalToConstant: 204).isActive = true
         UserFollowInfo.heightAnchor.constraint(equalToConstant: 41).isActive = true
@@ -112,7 +155,6 @@ extension ProfileViewController{
     }
     
     func SetUpPostNum(){
-        UserFollowInfo.addSubview(PostNum)
         PostNum.translatesAutoresizingMaskIntoConstraints = false
         PostNum.text = "7"
         PostNum.textColor = .yellow
@@ -125,7 +167,6 @@ extension ProfileViewController{
     }
     
     func SetUpPost(){
-        UserFollowInfo.addSubview(Post)
         Post.translatesAutoresizingMaskIntoConstraints = false
         Post.text = "Post"
         Post.textColor = .yellow
@@ -138,7 +179,6 @@ extension ProfileViewController{
     }
     
     func SetUpFollowerNum(){
-        UserFollowInfo.addSubview(FollowerNum)
         FollowerNum.translatesAutoresizingMaskIntoConstraints = false
         FollowerNum.text = "0"
         FollowerNum.textColor = .yellow
@@ -151,7 +191,6 @@ extension ProfileViewController{
     }
 
     func SetUpFollower(){
-        UserFollowInfo.addSubview(Follower)
         Follower.translatesAutoresizingMaskIntoConstraints = false
         Follower.text = "Follower"
         Follower.textColor = .yellow
@@ -165,7 +204,6 @@ extension ProfileViewController{
     }
     
     func SetUpFollowingNum(){
-        UserFollowInfo.addSubview(FollowingNum)
         FollowingNum.translatesAutoresizingMaskIntoConstraints = false
         FollowingNum.text = "0"
         FollowingNum.textColor = .yellow
@@ -179,7 +217,6 @@ extension ProfileViewController{
     }
     
     func SetUpFollowing(){
-        UserFollowInfo.addSubview(Following)
         Following.translatesAutoresizingMaskIntoConstraints = false
         Following.text = "Following"
         Following.textColor = .yellow
@@ -193,7 +230,6 @@ extension ProfileViewController{
     }
 
     func SetUpUserInfo(){
-        view.addSubview(UserInfo)
         UserInfo.translatesAutoresizingMaskIntoConstraints = false
         UserInfo.widthAnchor.constraint(equalToConstant: 345).isActive = true
         UserInfo.heightAnchor.constraint(equalToConstant: 59).isActive = true
@@ -203,7 +239,6 @@ extension ProfileViewController{
     }
     
     func SetUpName(){
-        UserInfo.addSubview(Name)
         Name.translatesAutoresizingMaskIntoConstraints = false
         Name.text = "르탄이"
         Name.textColor = .black
@@ -214,7 +249,6 @@ extension ProfileViewController{
     }
     
     func SetUpBio(){
-        UserInfo.addSubview(Bio)
         Bio.translatesAutoresizingMaskIntoConstraints = false
         Bio.attributedText = NSMutableAttributedString(string: "iOS Developer 🍎", attributes: [NSAttributedString.Key.kern: -0.5])
         Bio.textColor = .black
@@ -225,7 +259,6 @@ extension ProfileViewController{
     }
     
     func SetUpLinkInBio(){
-        UserInfo.addSubview(LinkInBio)
         LinkInBio.translatesAutoresizingMaskIntoConstraints = false
         LinkInBio.attributedText = NSMutableAttributedString(string: "spartacodingclub.kr", attributes: [NSAttributedString.Key.kern: -0.5])
         LinkInBio.textColor = .black
@@ -236,7 +269,12 @@ extension ProfileViewController{
     }
     
     func SetUpMiddleBar(){
-        view.addSubview(MiddleBar)
+        MiddleBar.addSubview(Follow)
+        MiddleBar.addSubview(Message)
+        MiddleBar.addSubview(More)
+
+
+
         MiddleBar.translatesAutoresizingMaskIntoConstraints = false
         MiddleBar.topAnchor.constraint(equalTo: UserInfo.bottomAnchor, constant: 11).isActive = true
         MiddleBar.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15).isActive = true
@@ -246,7 +284,6 @@ extension ProfileViewController{
     }
     
     func SetUpFollow(){
-        MiddleBar.addSubview(Follow)
         Follow.translatesAutoresizingMaskIntoConstraints = false
         Follow.layer.backgroundColor = UIColor(red: 0.22, green: 0.596, blue: 0.953, alpha: 1).cgColor
         Follow.layer.cornerRadius = 4
@@ -260,7 +297,6 @@ extension ProfileViewController{
     }
     
     func SetUpMessage(){
-        MiddleBar.addSubview(Message)
         Message.translatesAutoresizingMaskIntoConstraints = false
         
         Message.layer.backgroundColor = UIColor(red: 0.22, green: 0.596, blue: 0.953, alpha: 1).cgColor
@@ -275,7 +311,6 @@ extension ProfileViewController{
     }
     
     func SetUpMore(){
-        MiddleBar.addSubview(More)
         More.translatesAutoresizingMaskIntoConstraints = false
         More.setImage(UIImage(named: "More"), for: .normal)
         More.topAnchor.constraint(equalTo: MiddleBar.topAnchor, constant: 0).isActive = true
@@ -286,16 +321,83 @@ extension ProfileViewController{
 
     }
     
-//    func SetUpNavGallery(){
-//        view.addSubview(NavGallery)
-//        NavGallery.translatesAutoresizingMaskIntoConstraints = false
-//        NavGallery.topAnchor.constraint(equalTo: MiddleBar.topAnchor, constant: 15).isActive = true
-//        NavGallery.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 413).isActive = true
-//        NavGallery.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 1).isActive = true
-//        NavGallery.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -1).isActive = true
-//        NavGallery.widthAnchor.constraint(equalToConstant: 376).isActive = true
-//        NavGallery.heightAnchor.constraint(equalToConstant: 44).isActive = true
-//        NavGallery.backgroundColor = .black
-//    }
-    
+    func SetUpNavGallery(){
+        NavGallery.translatesAutoresizingMaskIntoConstraints = false
+        
+        NavGallery.topAnchor.constraint(equalTo: MiddleBar.bottomAnchor, constant: 10).isActive = true
+        NavGallery.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 1).isActive = true
+        NavGallery.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -1).isActive = true
+        NavGallery.heightAnchor.constraint(equalToConstant: 43).isActive = true
+        NavGallery.backgroundColor = .yellow
+
+    }
+    func SetUpgalleryCollectionView(){
+        galleryCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        galleryCollectionView.topAnchor.constraint(equalTo: NavGallery.bottomAnchor, constant: 1).isActive = true
+        galleryCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 1).isActive = true
+        galleryCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -1).isActive = true
+        galleryCollectionView.bottomAnchor.constraint(equalTo: Rectangle.topAnchor, constant: 0).isActive = true
+        galleryCollectionView.backgroundColor = .orange
+    }
+    func SetUpRectangle(){
+        Rectangle.translatesAutoresizingMaskIntoConstraints = false
+        
+        Rectangle.topAnchor.constraint(equalTo: galleryCollectionView.bottomAnchor, constant: 0).isActive = true
+        Rectangle.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 1).isActive = true
+        Rectangle.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -1).isActive = true
+        Rectangle.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -1).isActive = true
+        Rectangle.heightAnchor.constraint(equalToConstant: 85).isActive = true
+        
+        Rectangle.backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1)
+    }
+    func SetUpDivider(){
+        Divider.translatesAutoresizingMaskIntoConstraints = false
+        
+        Divider.topAnchor.constraint(equalTo: Rectangle.topAnchor, constant: 0).isActive = true
+        Divider.leftAnchor.constraint(equalTo: Rectangle.leftAnchor, constant: 0).isActive = true
+        Divider.rightAnchor.constraint(equalTo: Rectangle.rightAnchor, constant: 0).isActive = true
+        Divider.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        Divider.layer.borderWidth = 0.4
+        Divider.layer.borderColor = UIColor(red: 0.702, green: 0.702, blue: 0.702, alpha: 1).cgColor
+    }
+ 
+    func SetUpGrid(){
+        Grid.translatesAutoresizingMaskIntoConstraints = false
+        
+        Grid.titleLabel?.adjustsFontForContentSizeCategory = true
+        Grid.setImage(UIImage(named: "Grid"), for: .normal)
+        Grid.tintColor = .secondaryLabel
+        Grid.setTitleColor(.secondaryLabel, for: .normal)
+        Grid.heightAnchor.constraint(equalToConstant: 22.5).isActive = true
+        Grid.widthAnchor.constraint(equalToConstant: 22.5).isActive = true
+        Grid.leftAnchor.constraint(equalTo: NavGallery.leftAnchor, constant: ((UIScreen.main.bounds.width/3)/2)-11.25).isActive = true
+        
+        Grid.topAnchor.constraint(equalTo: Divider.bottomAnchor, constant: 8).isActive = true
+        
+    }
+    func SetUpprofileFill(){
+        profileFill.translatesAutoresizingMaskIntoConstraints = false
+        
+        profileFill.titleLabel?.adjustsFontForContentSizeCategory = true
+        profileFill.setImage(UIImage(named: "Profile - Fill"), for: .normal)
+        profileFill.tintColor = .secondaryLabel
+        profileFill.setTitleColor(.secondaryLabel, for: .normal)
+        profileFill.heightAnchor.constraint(equalToConstant: 22.75).isActive = true
+        profileFill.widthAnchor.constraint(equalToConstant: 22.5).isActive = true
+        profileFill.rightAnchor.constraint(equalTo: Rectangle.rightAnchor, constant: -((UIScreen.main.bounds.width/2)+11.25)).isActive = true
+        profileFill.leftAnchor.constraint(equalTo: Rectangle.leftAnchor, constant: (UIScreen.main.bounds.width/2)-11.25).isActive = true
+        profileFill.centerYAnchor.constraint(equalTo: Rectangle.centerYAnchor ,constant: -15).isActive = true
+        profileFill.addTarget(self, action: #selector(moveProfile), for: .touchUpInside)
+    }
+    @objc func moveProfile() {
+        let ProfileDesignVC = ProfileDesignViewController()
+        ProfileDesignVC.modalTransitionStyle = .coverVertical
+        ProfileDesignVC.modalPresentationStyle = .fullScreen
+        self.present(ProfileDesignVC, animated: true , completion: nil)
+    }
+    @objc func backProfile() {
+        self.presentingViewController?.dismiss(animated: true)
+    }
 }
